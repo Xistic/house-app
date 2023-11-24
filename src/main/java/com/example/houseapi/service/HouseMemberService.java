@@ -38,15 +38,12 @@ public class HouseMemberService {
                 Optional<HouseMember> existingMember = houseMemberRepo.findByUserAndHouse(user, house);
                 if (existingMember.isPresent()) {
                     // Если пользователь уже член этого дома, вы можете обработать это соответственно
-                    // Например, бросить исключение или выполнить другие действия
-                    // В данном случае, я просто выведу сообщение в консоль
                     return ("Пользователь '" + userName + "' уже является членом этого дома.");
                 } else {
                     // Проверяем, есть ли уже владелец в этом доме
                     Optional<HouseMember> ownerOptional = houseMemberRepo.findByHouseAndIsOwner(house, true);
                     if (isOwner && ownerOptional.isPresent()) {
-                        // Если владелец уже существует и вы пытаетесь добавить еще одного, обработайте это соответственно
-                        // В данном случае, я просто выведу сообщение в консоль
+                        // Если владелец уже существует и вы пытаетесь добавить еще одного
                         return ("В этом доме уже есть владелец.");
                     }
 
