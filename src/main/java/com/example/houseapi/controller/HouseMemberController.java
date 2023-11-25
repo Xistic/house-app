@@ -26,4 +26,15 @@ public class HouseMemberController {
         String result = houseMemberService.addMemberToHouse(userName, houseAddress, isOwner);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/remove-member")
+    public ResponseEntity<String> removeMemberFromHouse(@RequestBody Map<String, Object> request) {
+        String userName = (String) request.get("userName");
+        String houseAddress = (String) request.get("houseAddress");
+
+        String result = houseMemberService.removeMemberFromHouse(houseAddress, userName);
+        return ResponseEntity.ok(result);
+    }
+
+
 }

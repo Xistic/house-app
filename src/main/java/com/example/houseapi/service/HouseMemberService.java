@@ -65,4 +65,35 @@ public class HouseMemberService {
             return ("Пользователь с именем '" + userName + "' не найден.");
         }
     }
+
+    public String removeMemberFromHouse(String houseAddress, String userName) {
+        // Получаем пользователя по имени
+        Optional<User> userOptional = userService.getUserByName(userName);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // Получаем дом по адресу
+            Optional<House> houseOptional = houseService.getHouseByAddress(houseAddress);
+            if (houseOptional.isPresent()) {
+                House house = houseOptional.get();
+
+                // Проверяем, является ли пользователь членом этого дома
+                Optional<HouseMember> existingMember = houseMemberRepo.findByUserAndHouse(user, house);
+                if (existingMember.isPresent()) {
+                    // Удаляем члена дома из репозитория
+                    houseMemberRepo.delete(existingMember.get());
+                    return "Пользователь '" + userName + "' успешно удален из дома '" + houseAddress + "'.";
+                } else {
+                    return "Пользователь '" + userName + "' не является членом дома '" + houseAddress + "'.";
+                }
+            } else {
+                return "Дом с адресом '" + houseAddress + "' не найден.";
+            }
+        } else {
+            return "Пользователь с именем '" + userName + "' не найден.";
+        }
+    }
+
+
+
 }
